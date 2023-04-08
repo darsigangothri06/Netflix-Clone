@@ -15,16 +15,18 @@ const Netflix = (props) => {
     const [isScrolled, setIsScrolled] = useState(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    
     const generesLoaded = useSelector((state) => state.netflix.generesLoaded)
     const movies = useSelector((state) => state.netflix.movies);
+    const genres = useSelector((state) => state.netflix.genres);
 
     useEffect(() => {
         dispatch(getGenres())
     }, [])
 
     useEffect(() => {
-        if(generesLoaded) dispatch(fetchMovies({type: "all"}))
-    })
+        if(generesLoaded) dispatch(fetchMovies({genres, type: "all"}))
+    }, [generesLoaded])
 
     window.onscroll = () => {
         setIsScrolled(window.pageYOffset === 0 ? false : true)
