@@ -21,13 +21,12 @@ const Card = ({movieData, isLiked = false}) => {
     
     onAuthStateChanged(firebaseAuth, (currentUser) => {
         if(currentUser) setEmail(currentUser.email);
-        else navigate("/")
+        else navigate("/login")
     })
 
     const addToList = async() => {
         try{
             const result = await axios.post("http://localhost:8000/api/user/add", {email, data:movieData})
-            console.log(result)
         }catch(err){
             console.log(err)
         }
@@ -61,6 +60,7 @@ const Card = ({movieData, isLiked = false}) => {
                                 <IoPlayCircleSharp title="play" onClick={() => navigate("/player")}/>
                                 <RiThumbUpFill title="Like"/>
                                 <RiThumbDownFill title="Dislike"/>
+                                {console.log('what is this man')}
                                 {
                                     isLiked ? (
                                         <BsCheck 

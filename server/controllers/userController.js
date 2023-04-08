@@ -59,7 +59,7 @@ exports.removeFromLikedMovies = async (req, res) => {
         const user = await User.findOne({ email });
         if (user) {
             const movies = user.likedMovies;
-            const movieIndex = movies.findIndex(({ id }) => id === movieId);
+            const movieIndex = movies.find(({ id }) => id === movieId);
             if (!movieIndex) {
             return res.status(400).json({ 
                 msg: "Movie not found." 

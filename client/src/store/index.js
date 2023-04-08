@@ -66,6 +66,7 @@ export const getUsersLikedMovies = createAsyncThunk(
         const {
             data: { movies },
         } = await axios.get(`http://localhost:8000/api/user/liked/${email}`);
+        console.log('did i?')
         return movies;
     }
 );
@@ -111,3 +112,6 @@ export const store = configureStore({
         netflix: NetflixSlice.reducer
     }
 })
+
+
+export const { setGenres, setMovies } = NetflixSlice.actions;
