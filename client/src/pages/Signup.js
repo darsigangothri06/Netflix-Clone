@@ -1,13 +1,14 @@
 import BackgroundImage from './Backgroundimage'
 import styled from 'styled-components'
-import {createUserWithEmailAndPassword} from 'firebase/auth'
+import {createUserWithEmailAndPassword, onAuthStateChanged} from 'firebase/auth'
 import {firebaseAuth} from '../utils/Firebase-config'
 import Header from './Header';
 import { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 
 const Signup = (props) => {
     const [showPassword, setShowPassword] = useState(false)
+    const navigate = useNavigate()
     const [form, setForm] = useState({
         email: '',
         password: ''
@@ -21,6 +22,10 @@ const Signup = (props) => {
             console.log(err)
         }
     }
+
+    onAuthStateChanged(firebaseAuth, (currentUser) => {
+        if(currentUser) navigate("/")
+    })
  
     return (
         <Container showPassword={showPassword}>
@@ -73,9 +78,9 @@ const Container = styled.div`
             .text{
                 gap: 1rem;
                 text-align: center;
-                font-size: 2rem;
+                font-size: 1.5rem;
                 h1{
-                    padding: 0 25rem;
+                    padding: 0 10rem;
                 }
             } 
         }
