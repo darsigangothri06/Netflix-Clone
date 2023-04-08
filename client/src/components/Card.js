@@ -7,10 +7,32 @@ import {RiThumbUpFill, RiThumbDownFill} from "react-icons/ri"
 import {BsCheck} from "react-icons/bs"
 import {AiOutlinePlus} from "react-icons/ai"
 import {BiChevronDown} from "react-icons/bi"
+import {onAuthStateChanged} from 'firebase/auth'
+import {firebaseAuth} from '../utils/Firebase-config'
+import { removeMovieFromLiked } from "../store";
+import { useDispatch } from "react-redux";
+import axios from 'axios'
 
 const Card = ({movieData, isLiked = false}) => {
     const [isHovered, setIsHovered] = useState(false)
+    const [email, setEmail] = useState(undefined)
     const navigate = useNavigate()
+    const dispatch = useDispatch();
+    
+    onAuthStateChanged(firebaseAuth, (currentUser) => {
+        if(currentUser) setEmail(currentUser.email);
+        else navigate("/")
+    })
+
+    const addToList = async() => {
+        try{
+            const result = await axios.post("http://localhost:8000/api/user/add", {email, data:movieData})
+            console.log(result)
+        }catch(err){
+            console.log(err)
+        }
+    }
+
     return(
         <Container onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
             <img src={`https://image.tmdb.org/t/p/w500${movieData.image}`} alt={`${movieData.name}`}/>
@@ -41,9 +63,15 @@ const Card = ({movieData, isLiked = false}) => {
                                 <RiThumbDownFill title="Dislike"/>
                                 {
                                     isLiked ? (
-                                        <BsCheck title="Remove From List"/>
+                                        <BsCheck 
+                                            title="Remove From List" 
+                                            onClick={() =>
+                                                dispatch(
+                                                    removeMovieFromLiked({ movieId: movieData.id, email })
+                                                )
+                                            }/>
                                     ) : (
-                                        <AiOutlinePlus title="Add to my list" />
+                                        <AiOutlinePlus title="Add to my list" onClick={addToList}/>
                                     )
                                 }
                             </div>
