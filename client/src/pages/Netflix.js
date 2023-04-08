@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { fetchMovies, getGenres } from "../store"
 import { useSelector } from "react-redux"
+import Slider from "../components/Slider"
 
 const Netflix = (props) => {
     const [isScrolled, setIsScrolled] = useState(false)
@@ -49,6 +50,7 @@ const Netflix = (props) => {
                     </div>
                 </div>
             </div>
+            <Slider movies={movies}/>
         </Container>
     )
 }
