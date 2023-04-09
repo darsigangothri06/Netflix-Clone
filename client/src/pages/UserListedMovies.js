@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from "firebase/auth";
-import React, { useEffect, useState } from "react";
+import React, { useDebugValue, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { firebaseAuth } from "../utils/Firebase-config";
 import Card from "../components/Card";
@@ -14,15 +14,20 @@ export default function UserListedMovies() {
     const navigate = useNavigate();
     const [isScrolled, setIsScrolled] = useState(false);
     const [email, setEmail] = useState(undefined);
+    const [isLoaded, setIsLoaded] = useState(false)
+    console.log('isloaded is', isLoaded)
 
-    onAuthStateChanged(firebaseAuth, (currentUser) => {
-        if (currentUser) setEmail(currentUser.email);
-        else navigate("/login");
-    });
+    useEffect(() => {
+        onAuthStateChanged(firebaseAuth, (currentUser) => {
+            if (currentUser) setEmail(currentUser.email);
+            else navigate("/login");
+        });
+    }, [])
 
     useEffect(() => {
         if (email) {
             dispatch(getUsersLikedMovies(email));
+            setIsLoaded(true)
         }
     }, [email]);
 
@@ -36,18 +41,25 @@ export default function UserListedMovies() {
             <Navbar isScrolled={isScrolled} />
             <div className="content flex column">
                 <h1>My List</h1>
-                <div className="grid flex">
-                    {movies.map((movie, index) => {
-                        return (
-                            <Card
-                                movieData={movie}
-                                index={index}
-                                key={index}
-                                isLiked={true}
-                            />
-                        );
-                    })}
-                </div>
+                {
+                    isLoaded ? (
+                        <div className="grid flex">
+                            {movies.map((movie, index) => {
+                                return (
+                                    <Card
+                                        movieData={movie}
+                                        index={index}
+                                        key={index}
+                                        isLiked={true}
+                                    />
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        <></>
+                    )
+                }
+                
             </div>
         </Container>
     );

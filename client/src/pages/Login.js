@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import {onAuthStateChanged, signInWithEmailAndPassword} from 'firebase/auth'
 import {firebaseAuth} from '../utils/Firebase-config'
 import Header from './Header';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Login = (props) => {
@@ -22,9 +22,11 @@ const Login = (props) => {
         }
     }
 
-    onAuthStateChanged(firebaseAuth, (currentUser) => {
-        if(currentUser) navigate("/")
-    })
+    useEffect(() => {
+        onAuthStateChanged(firebaseAuth, (currentUser) => {
+            if(currentUser) navigate("/")
+        })
+    }, [])
  
     return (
         <Container>

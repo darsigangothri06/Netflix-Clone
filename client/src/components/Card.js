@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components"
 import { useNavigate } from "react-router-dom";
 import video from '../assets/video.mp4'
@@ -19,10 +19,12 @@ const Card = ({movieData, isLiked = false}) => {
     const navigate = useNavigate()
     const dispatch = useDispatch();
     
-    onAuthStateChanged(firebaseAuth, (currentUser) => {
-        if(currentUser) setEmail(currentUser.email);
-        else navigate("/login")
-    })
+    useEffect(() => {
+        onAuthStateChanged(firebaseAuth, (currentUser) => {
+            if(currentUser) setEmail(currentUser.email);
+            else navigate("/login")
+        })
+    }, [])
 
     const addToList = async() => {
         try{

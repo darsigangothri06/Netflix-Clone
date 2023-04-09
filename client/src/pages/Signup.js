@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import {createUserWithEmailAndPassword, onAuthStateChanged} from 'firebase/auth'
 import {firebaseAuth} from '../utils/Firebase-config'
 import Header from './Header';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Signup = (props) => {
@@ -19,13 +19,16 @@ const Signup = (props) => {
             const {email, password} = form;
             await createUserWithEmailAndPassword(firebaseAuth, email, password)
         }catch(err){
+            alert('Ivalid Email or Email already in use! Please try again.')
             console.log(err)
         }
     }
 
-    onAuthStateChanged(firebaseAuth, (currentUser) => {
-        if(currentUser) navigate("/")
-    })
+    useEffect(() => {
+        onAuthStateChanged(firebaseAuth, (currentUser) => {
+            if(currentUser) navigate("/")
+        })
+    }, [])
  
     return (
         <Container showPassword={showPassword}>
