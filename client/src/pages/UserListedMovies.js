@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from "firebase/auth";
-import React, { useDebugValue, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { firebaseAuth } from "../utils/Firebase-config";
 import Card from "../components/Card";
@@ -15,7 +15,6 @@ export default function UserListedMovies() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [email, setEmail] = useState(undefined);
     const [isLoaded, setIsLoaded] = useState(false)
-    console.log('isloaded is', isLoaded)
 
     useEffect(() => {
         onAuthStateChanged(firebaseAuth, (currentUser) => {

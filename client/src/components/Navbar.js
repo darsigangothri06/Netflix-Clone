@@ -23,7 +23,6 @@ const Navbar = ({isScrolled}) => {
     useEffect(() => {
         onAuthStateChanged(firebaseAuth, (currentUser) => {
             if (!currentUser) {
-                console.log('here 1')
                 navigate("/login");
             }
         });
@@ -34,7 +33,7 @@ const Navbar = ({isScrolled}) => {
             <nav className={`${isScrolled ? "scrolled" : ""} flex`}>
                 <div className="left flex a-center">
                     <div className="brand flex a-center j-center">
-                        <img src={logo} alt='Logo'></img>
+                        <img src={logo} alt='Logo' onClick={() => navigate("/")}></img>
                     </div>
                     <ul className="links flex">
                     {
@@ -100,6 +99,7 @@ const Container = styled.div`
             .brand{
                 img{
                     height: 4rem;
+                    cursor: pointer;
                 }
             }
             .links{
