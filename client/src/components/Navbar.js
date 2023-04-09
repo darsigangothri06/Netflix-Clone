@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import logo from "../assets/logo.png"
 import { Link } from "react-router-dom"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import {FaPowerOff, FaSearch} from 'react-icons/fa'
 import { signOut, onAuthStateChanged } from "firebase/auth"
@@ -20,9 +20,14 @@ const Navbar = ({isScrolled}) => {
     const [inputHover, setInputHover] = useState(false)
     const navigate = useNavigate();
 
-    onAuthStateChanged(firebaseAuth, (currentUser) => {
-        if (!currentUser) navigate("/login");
-    });
+    useEffect(() => {
+        onAuthStateChanged(firebaseAuth, (currentUser) => {
+            if (!currentUser) {
+                console.log('here 1')
+                navigate("/login");
+            }
+        });
+    }, [])
 
     return (
         <Container>

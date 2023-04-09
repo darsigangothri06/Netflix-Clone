@@ -42,7 +42,7 @@ export default function UserListedMovies() {
                             <Card
                                 movieData={movie}
                                 index={index}
-                                key={movie.id}
+                                key={index}
                                 isLiked={true}
                             />
                         );

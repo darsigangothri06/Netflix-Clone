@@ -26,7 +26,7 @@ const Card = ({movieData, isLiked = false}) => {
 
     const addToList = async() => {
         try{
-            const result = await axios.post("http://localhost:8000/api/user/add", {email, data:movieData})
+            await axios.post("https://netflix-clone-0698.onrender.com/api/user/add", {email, data:movieData})
         }catch(err){
             console.log(err)
         }
@@ -60,7 +60,6 @@ const Card = ({movieData, isLiked = false}) => {
                                 <IoPlayCircleSharp title="play" onClick={() => navigate("/player")}/>
                                 <RiThumbUpFill title="Like"/>
                                 <RiThumbDownFill title="Dislike"/>
-                                {console.log('what is this man')}
                                 {
                                     isLiked ? (
                                         <BsCheck 
